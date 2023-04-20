@@ -10,20 +10,28 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
 
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
+
     private String name;
 
+    @Transient
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-
-    public Role() {
-    }
+    private Set<User> user;
 
     public Role(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Role(int id) {
+        this.id = id;
+    }
+
+    public Role() {
+
     }
 
     public int getId() {
@@ -34,6 +42,14 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
+    public Set<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<User> user) {
+        this.user = user;
+    }
+
     public String getName() {
         return name;
     }
@@ -42,20 +58,19 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
     @Override
     public String getAuthority() {
         return name;
     }
 
-    public void setAuthority(String name) {
-        this.name = name;
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", users=" + user +
+                '}';
     }
 }

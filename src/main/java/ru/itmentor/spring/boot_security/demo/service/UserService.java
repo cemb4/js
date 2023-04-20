@@ -1,61 +1,66 @@
 package ru.itmentor.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itmentor.spring.boot_security.demo.model.User;
+import ru.itmentor.spring.boot_security.demo.model.Role;
 import ru.itmentor.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService{
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
-    @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return user;
-    }
-
-    public List<User> findAll() {
+    public List<User> findAllUser() {
         return userRepository.findAll();
     }
+    @Transactional
+    public boolean saveUser(User user) {
+        Optional<User> userFromDB = userRepository.findByEmail(user.getName());
 
-    public User findOne(int id) {
-        Optional<User> foundUser = userRepository.findById(id);
-        return foundUser.orElse(null);
+        if (!userFromDB.isEmpty()) {
+            return false;
+        }
+
+        user.setRoles(Collections.singleton(new Role(2, "ROLE_USER")));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return true;
+    }
+    @Transactional
+    public void deleteUser(int userId) {
+        userRepository.deleteById(userId);
+    }
+
+
+    public Optional<User> findUserById(int userId) {
+        return userRepository.findById(userId);
     }
 
     @Transactional
-    public void save(User user) {
+    public void updateUserByIdAndUser(User user, int userId) {
+        user.setId(userId);
         userRepository.save(user);
     }
 
-    @Transactional
-    public void update(int id, User updateUser) {
-        updateUser.setId(id);
-        userRepository.save(updateUser);
-    }
+    public List<String> getRoleInStringById(int id){
+        Optional<User> user = userRepository.findById(id);
+        return user.isEmpty() ? null : user.get().getRoles().stream().map(role -> role.getName()).collect(Collectors.toList());
 
-    @Transactional
-    public void delete(int id) {
-        userRepository.deleteById(id);
     }
 }
