@@ -14,16 +14,16 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl {
 
-//    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ) {
+    //    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ) {
 //        super(userRepository, bCryptPasswordEncoder);
 //    }
-private final UserDAO userDAO;
-private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserDAO userDAO;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-public UserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder, UserDAO userDAO){
-    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    this.userDAO = userDAO;
-}
+    public UserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder, UserDAO userDAO) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userDAO = userDAO;
+    }
 
     public List<User> findAllUser() {
         return userDAO.findAllUser();
@@ -50,7 +50,4 @@ public UserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder, UserDAO user
     }
 
 
-//    public List<String> getRoleInStringById(int id) {
-//        return userDAO.getRoleInStringById(id);
-//    }
 }

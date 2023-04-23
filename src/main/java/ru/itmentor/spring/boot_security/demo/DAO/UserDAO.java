@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDAO {
-    List<User> findAllUser ();
+    List<User> findAllUser();
+
     boolean saveUser(User user);
+
     void deleteUser(int userId);
+
     Optional<User> findUserById(int userId);
+
     void updateUserByIdAndUser(User user, int userId);
+
     List<String> getRoleInStringById(int id);
 
 

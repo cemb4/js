@@ -12,6 +12,7 @@ import ru.itmentor.spring.boot_security.demo.security.UserDetail;
 
 
 import java.util.Optional;
+
 @Service
 public class UserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -24,7 +25,7 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found!");
         }
         return new UserDetail(user.get());
