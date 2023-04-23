@@ -7,17 +7,17 @@ import ru.itmentor.spring.boot_security.demo.model.Role;
 import ru.itmentor.spring.boot_security.demo.model.User;
 import ru.itmentor.spring.boot_security.demo.repository.RoleRepository;
 import ru.itmentor.spring.boot_security.demo.security.UserDetail;
-import ru.itmentor.spring.boot_security.demo.service.UserService;
+import ru.itmentor.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.util.List;
 
 @RestController
 public class AdminController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final RoleRepository roleRepository;
 
 
-    public AdminController(UserService userService, RoleRepository roleRepository) {
+    public AdminController(UserServiceImpl userService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
     }

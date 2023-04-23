@@ -74,7 +74,7 @@ $(document).ready ( function () {
 
             userEl.innerHTML = `
                     <td><p>${users[i].id}</td>
-                    <td><p>${users[i].Name}</p></td>
+                    <td><p>${users[i].name}</p></td>
                     <td><p>${users[i].lastName}</p></td>             
                     <td><p>${users[i].email}</p></td>
                     <td><p>${users[i].roles.map(role => role.name.replaceAll('ROLE_', '')).join(', ')}</p></td>`;
