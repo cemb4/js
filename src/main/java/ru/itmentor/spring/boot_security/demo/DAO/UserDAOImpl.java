@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
     public boolean saveUser(User user) {
         Optional<User> userFromDB = userRepository.findByEmail(user.getName());
 
-        if (!userFromDB.isEmpty()) {ййййййййй
+        if (!userFromDB.isEmpty()) {
             return false;
         }
 
